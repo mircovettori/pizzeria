@@ -1,4 +1,4 @@
-package top.process.admin.v2.top_process_admin_v2;
+package pizzeria;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
