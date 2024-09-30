@@ -2,11 +2,11 @@ package pizzeria.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pizzeria.domain.User;
 import pizzeria.dto.UserDto;
+import pizzeria.repository.UserRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,16 +20,11 @@ import static pizzeria.exception.RestException.throwRestFormattedException;
 public class UserService {
 
   @Autowired
-  pizzeria.repository.UserRepository userRepository;
+  UserRepository userRepository;
 
   @Transactional
   public List<User> getUsers() {
     return userRepository.findAll();
-  }
-
-  @Transactional
-  public List<User> getUsers(Specification<User> spec) {
-    return userRepository.findAll(spec);
   }
 
   @Transactional

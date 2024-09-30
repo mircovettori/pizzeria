@@ -1,13 +1,12 @@
 package pizzeria.domain;
 
-import com.sun.istack.NotNull;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
 import java.util.UUID;
 
 @Data
@@ -16,8 +15,7 @@ public abstract class GenericDomain {
 
   @Id
   @GeneratedValue
-  @NotNull
-  @Column(name = "id")
+  @Column(name = "id", nullable = false)
   private UUID id;
 
   /** @param source Domain object to merge to actual domain object */

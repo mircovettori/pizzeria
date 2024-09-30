@@ -8,3 +8,9 @@ create table if not exists "user" (
     address text
 );
 
+create table if not exists "pizza" (
+    id uuid not null constraint pk_pizza primary key,
+    name text not null,
+    description text
+);
+

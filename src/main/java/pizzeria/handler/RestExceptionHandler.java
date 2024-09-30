@@ -1,12 +1,12 @@
 package pizzeria.handler;
 
-import com.exercise.exercise.exception.RestException;
-import com.exercise.exercise.json.RestJsonError;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import pizzeria.exception.RestException;
+import pizzeria.json.RestJsonError;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
