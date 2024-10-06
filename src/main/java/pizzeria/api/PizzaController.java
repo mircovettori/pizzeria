@@ -21,7 +21,7 @@ public class PizzaController {
   @Autowired
   PizzaService pizzaService;
 
-  @GetMapping({"/fetch/{pizzaId}"})
+  @GetMapping({"/{pizzaId}"})
   public ResponseEntity<Pizza> getPizza(@PathVariable UUID pizzaId) {
     return ResponseEntity.ok(pizzaService.getPizzaById(pizzaId));
   }

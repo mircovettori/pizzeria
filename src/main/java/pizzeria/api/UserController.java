@@ -21,7 +21,7 @@ public class UserController {
   @Autowired
   UserService userService;
 
-  @GetMapping({"/fetch/{userId}"})
+  @GetMapping({"/{userId}"})
   public ResponseEntity<User> getUser(@PathVariable UUID userId) {
     return ResponseEntity.ok(userService.getUserById(userId));
   }
