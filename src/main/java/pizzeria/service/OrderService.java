@@ -2,6 +2,7 @@ package pizzeria.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pizzeria.domain.*;
@@ -11,6 +12,7 @@ import pizzeria.dto.OrderResponseDto;
 import pizzeria.repository.OrderRepository;
 
 import java.time.OffsetDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,8 +58,8 @@ public class OrderService {
   }
 
   @Transactional
-  public List<OrderResponseDto> getOrdersByUserId(UUID userId) {
-    List<Order> orders = orderRepository.findByUserId(userId);
+  public List<OrderResponseDto> getOrdersByUserId(UUID userId, Pageable pageable) {
+    List<Order> orders = orderRepository.findByUserId(userId, pageable);
     return orders.stream().map(order -> OrderResponseDto.of(order, order.getOrderPizzas())).toList();
   }
 
@@ -70,5 +72,17 @@ public class OrderService {
 
   public List<OrderHistoryResponseDto> getOrderHistoryById(UUID orderId) {
     return orderHistoryService.getOrderHistoryById(orderId).stream().map(OrderHistoryResponseDto::of).toList();
+  }
+
+  @Transactional
+  public List<OrderResponseDto> getNextOrder() {
+    List<Order> nextOrders = orderRepository.findAll().stream()
+            .sorted(Comparator.comparingLong(Order::getDeliveryDate))
+            .filter(order -> {
+              List<OrderHistory> orderHistory = orderHistoryService.getOrderHistoryById(order.getId());
+              return orderHistory.size() == 1 && orderHistory.getFirst().getOrderStatus() == OrderStatus.ORDERED;
+            })
+            .toList();
+    return nextOrders.stream().map(order -> OrderResponseDto.of(order, order.getOrderPizzas())).toList();
   }
 }

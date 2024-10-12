@@ -17,6 +17,7 @@ create table if not exists "pizza" (
 create table if not exists "order" (
     id uuid not null constraint pk_order primary key,
     user_id uuid references user(id),
+    delivery_date bigint not null,
 );
 
 create table if not exists "order_pizza" (

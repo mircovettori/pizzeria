@@ -22,4 +22,7 @@ public class Order extends GenericDomain {
   @OneToMany(mappedBy="order")
   private Set<OrderPizza> orderPizzas;
 
+  @Column(name="delivery_date")
+  private Long deliveryDate;
+
 }

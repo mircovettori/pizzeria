@@ -2,6 +2,7 @@ package pizzeria.api;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,8 @@ public class OrderController {
   OrderService orderService;
 
   @GetMapping({"user/{userId}"})
-  public ResponseEntity<List<OrderResponseDto>> getOrdersByUserId(@PathVariable UUID userId) {
-    List<OrderResponseDto> orders = orderService.getOrdersByUserId(userId);
+  public ResponseEntity<List<OrderResponseDto>> getOrdersByUserId(@PathVariable UUID userId, Pageable pageable) {
+    List<OrderResponseDto> orders = orderService.getOrdersByUserId(userId, pageable);
     return ResponseEntity.ok(orders);
   }
 
@@ -51,6 +52,11 @@ public class OrderController {
   public ResponseEntity<OrderHistoryResponseDto> updateOrderStatus(@PathVariable UUID orderId, @RequestBody UpdateOrderStatusDto updateOrderStatusDto) {
     OrderHistoryResponseDto orderHistoryResponseDto = orderService.createOrderHistory(orderId, updateOrderStatusDto.getOrderStatus(), updateOrderStatusDto.getUpdateTime());
     return ResponseEntity.ok(orderHistoryResponseDto);
+  }
+
+  @GetMapping("nextorder")
+  public ResponseEntity<List<OrderResponseDto>> getNextOrder() {
+    return ResponseEntity.ok(orderService.getNextOrder());
   }
 
 }
